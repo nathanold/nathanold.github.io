@@ -10,7 +10,6 @@ function changeColor(color) {
             return;
         }
         for (i = 1; i <= 6; i++) {
-            console.log(color.charAt(i));
             if (validChars.indexOf(color.charAt(i)) == -1) {
                 console.log("I'm sorry, that is not a valid hex number. Your first invalid character was " + color.charAt(i) + ". Please try again.");
                 break;
