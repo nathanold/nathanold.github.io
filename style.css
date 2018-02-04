@@ -1,0 +1,20 @@
+#heading{
+    text-align: center;
+    font-family: 'Libre Baskerville', serif;;
+    font-size: 400%;
+}
+
+#sub-heading{
+    text-align: center;
+    font-family: 'Libre Baskerville', serif;
+    color: red;
+}
+#links{
+    width:100%;
+}
+.link{
+    text-align: center;
+    font-family: 'Libre Baskerville', serif;
+    font-size: 200%;
+}
+
