@@ -3,9 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <title>Homework 3</title>
+
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+
 </head>
 <body>
-    <h1>Homework 3</h1>
-    
+<h1>Homework 3</h1>
+<svg id="viz"></svg>
+
+<script>
+
+    function randomColorGenerator() {
+        // valid characters in a hex code
+        var validChars = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+            'a', 'b', 'c', 'd', 'e', 'f', 'A', 'B', 'C', 'D', 'E', 'F'];
+
+        var randomColor = "#";
+        for (i = 1; i <= 6; i++) {
+            // generate a random number from the valid characters
+            randomColor += validChars[Math.floor(Math.random() * validChars.length)];
+        }
+        return randomColor;
+    }
+
+    function generateRandomArray() {
+        var random = [];
+
+        for (i = 0; i < Math.floor(Math.random() * 100); i++) {
+            random.push(Math.floor(Math.random() * 40));
+        }
+        return random;
+    }
+
+    function drawCircles(data) {
+
+        var svg = d3.select('#viz')
+            .attr('width', '100%');
+        var randomColor = randomColorGenerator();
+        var squares = svg.selectAll('.square')
+            .data(data);
+
+        squares.enter()
+            .append('rect')
+            .attr('class', 'square')
+            .attr('x', function (dataP, indexInArray) {
+                return 50 + indexInArray * 70;
+            })
+            .attr('y', 50)
+            .transition().duration(1000)
+            .attr('width', function (dataP) {
+                return dataP;
+            })
+            .attr('height', function (dataP) {
+                return dataP;
+            })
+            .attr('fill', randomColor);
+        squares
+            .transition().duration(1000)
+            .attr('width', function (dataP) {
+                return dataP;
+            })
+            .attr('height', function (dataP) {
+                return dataP;
+            })
+            .attr('fill', randomColor);
+        squares.exit()
+            .transition().duration(1000)
+            .attr('width', 0)
+            .attr('height', 0)
+            .remove();
+    }
+
+</script>
+<hr/>
+<div id="butn">
+    <button id="btn" type="button"  onclick="drawCircles(generateRandomArray());">Change Array</button>
+</div>
 </body>
 </html>
