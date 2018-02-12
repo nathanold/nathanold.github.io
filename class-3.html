@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>In-Class 3</title>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="numbers.js"></script>
+</head>
+<body>
+<h1 id="heading">Class 3</h1>
+<h2 class="title">D3 Basics</h2>
+<svg id="viz"></svg>
+<script>
+    var title = d3.select("#heading")
+        .style("background-color", "red")
+        .style('font-family', 'Comic Sans MS')
+        .style('color', 'yellow')
+        .attr('class', 'title');
+
+    var body = d3.select('body')
+        .style('background-color', 'orange');
+
+    var titles = d3.selectAll('.title')
+        .style('font-family', 'Times New Roman');
+
+    var myData = [12, 23, 34, 23, 12, 23, 34, 23, 12, 23, 34, 23, 12, 23, 34, 23];
+    var newData = [34, 23, 12, 4];
+
+    function drawCircles(data) {
+
+        var svg = d3.select('#viz')
+            .attr('width', '1000');
+
+        var dots = svg.selectAll('.dot')
+            .data(data);
+
+        // enter code
+        dots.enter()
+            .append('circle')  // for any dots that are entering, make a circle
+            .attr('class', 'dot')
+            .attr('r',0)
+            .attr('cx', function (dataP, indexInArray) {
+                return 50 + indexInArray * 70;
+            })
+            .attr('cy', 50)
+            .transition().duration(1000)
+            .attr('r', function (dataP) {
+                return dataP;
+            })
+            .attr('fill', 'blue');
+
+        // update code
+        dots
+            .transition().duration(1000)
+            .attr('r', function (dataP) {
+                return dataP;
+            })
+            .attr('fill','green');
+
+        // exit code
+        dots.exit()
+            .transition().duration(1000)
+            .attr('r',0)
+            .remove();
+    }
+
+    drawCircles(myData);
+</script>
+</body>
+</html>
