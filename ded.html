@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+        }
+        #tooltip{
+            position: absolute;
+            display: none;
+            border: 1px solid black;
+            font-family: "Script MT Bold";
+            font-size: 16px;
+            background-color:white;
+        }
+    </style>
+</head>
+<body>
+<svg id="viz">
+    <g id="xAxis"></g>
+</svg>
+<div id="tooltip"></div>
+<script>
+    /* numbers
+    var distances = [1, 1.4, 1.23, 0.3, 0.5, 3.2, 2.3, 1];
+    var tampon = 50;
+
+    var xScale = d3.scaleLinear()
+        .domain([0, d3.max(distances)])
+        .range([tampon, window.innerWidth - tampon * 2]);
+
+    var svg = d3.select("#viz")
+        .attr("width",window.innerWidth)
+        .attr("height",window.innerHeight);
+
+    var circles = svg.selectAll("circle")
+        .data(distances);
+
+    circles.enter()
+        .append("circle")
+        .attr("cx",0)
+        .attr("cy",100)
+        .attr("r",20)
+        .transition().duration(1500)
+        .attr("cx",function(d){
+            return xScale(d);
+        });
+
+    circles.exit();
+    */
+    var distances = [{place: "Place 1",distance: 1},
+        {place:"Place 2",distance: 1.4},
+        {place: "Place 3", distance: 1.23},
+        {place: "Place 4", distance: 0.3},
+        {place: "Place 5", distance: 0.5},
+        {place: "Place 6",distance: 3.2},
+        {place: "Place 7",distance: 2.3}];
+    var tampon = 50;
+
+    var maxDistance = d3.max(distances,function(d){
+        return d.distance;
+    });
+    var xScale = d3.scaleLinear()
+        .domain([0, maxDistance])
+        .range([tampon, window.innerWidth - tampon * 2]);
+
+    var svg = d3.select("#viz")
+        .attr("width", window.innerWidth)
+        .attr("height", window.innerHeight);
+
+    var circles = svg.selectAll("circle")
+        .data(distances);
+
+    circles.enter()
+        .append("circle")
+        .attr("cx", 0)
+        .attr("cy", 100)
+        .attr("r", 20)
+        .on("mouseenter",function(d){
+            d3.select("#tooltip")
+                .style("display","block")
+                .style("top","130px")
+                .style("left",xScale(d.distance) + "px")
+                .text(d.place);
+            console.log(d.place);
+        })
+        .on("mouseleave",function(d){
+            d3.select("#tooltip")
+                .style("display","none");
+        })
+        .transition().duration(1500)
+        .attr("cx", function (d) {
+            return xScale(d.distance);
+        });
+
+    var xAxis = d3.axisBottom(xScale);
+    d3.select("g#xAxis")
+        .attr("transform","translate(0,150)")
+        .call(xAxis);
+    circles.exit();
+</script>
+</body>
+</html>
