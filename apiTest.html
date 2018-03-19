@@ -23,7 +23,7 @@
     }
     var client = new HttpClient();
     client.get(wow, function (response) {
-        console.log(response);
+        console.log(JSON.parse(response));
     });
 
 </script>
