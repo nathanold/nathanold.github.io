@@ -3,28 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <title>API Test</title>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
 </head>
 <body>
+<svg width="1500" height="1000" id="map"></svg>
 <script>
-    //"https://api-v3.mbta.com/predictions?filter[stop]=South+Station&filter[direction_id]=0&include=schedule?api key=9105309c34884ec5be702f2478257ee9";
-    var wow = "https://api-v3.mbta.com/vehicles?api key=9105309c34884ec5be702f2478257ee9"
-    // thanks to StackOverflow user tggagne
-    var HttpClient = function() {
-        this.get = function(aUrl, aCallback) {
-            var anHttpRequest = new XMLHttpRequest();
-            anHttpRequest.onreadystatechange = function() {
-                if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
-                    aCallback(anHttpRequest.responseText);
-            }
 
-            anHttpRequest.open( "GET", aUrl, true );
-            anHttpRequest.send( null );
-        }
+    //"https://api-v3.mbta.com/predictions?filter[stop]=South+Station&filter[direction_id]=0&include=schedule?api key=9105309c34884ec5be702f2478257ee9";
+    var wow = "https://api-v3.mbta.com/vehicles";//?api key=9105309c34884ec5be702f2478257ee9";
+   // var wow1 = "https://api-v3.mbta.com/vehicles?api key=9105309c34884ec5be702f2478257ee9?filter[route]=Red";//?api key=9105309c34884ec5be702f2478257ee9";
+   // var wow2 = "https://api-v3.mbta.com/vehicles?api key=9105309c34884ec5be702f2478257ee9?filter[route]=Blue";//?api key=9105309c34884ec5be702f2478257ee9";
+
+    /*
+     // thanks to StackOverflow user tggagne
+     var HttpClient = function () {
+         this.get = function (aUrl, aCallback) {
+             var anHttpRequest = new XMLHttpRequest();
+             anHttpRequest.onreadystatechange = function () {
+                 if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
+                     aCallback(anHttpRequest.responseText);
+             };
+
+             anHttpRequest.open("GET", aUrl, true);
+             anHttpRequest.send(null);
+         }
+     };
+     var client = new HttpClient();
+     var vehicles = {};
+     client.get(wow, function (response) {
+         console.log(JSON.parse(response));
+         vehicles = JSON.parse(response);
+     });
+     */
+    d3.queue()
+        .defer(d3.json, "trainLines.json")
+        .defer(d3.json, wow)
+        .awaitAll(function (error, dataArray) {
+            var data = dataArray[0];
+            var vehicles = dataArray[1].data;
+
+            console.log(data);
+            console.log(vehicles);
+            data.features = data.features.filter(function (d) {
+                return d.properties.id != "sl1" && d.properties.id != "sl5" && d.properties.id != "sl2" && d.properties.id != "sl4"
+            });
+            console.log(data);
+            var proj = d3.geoAlbersUsa()
+                .fitSize([1000, 1000], data);
+            var path = d3.geoPath()
+                .projection(proj);
+            var svg = d3.select('#map');
+            var lines = svg.selectAll("path")
+                .data(data.features);
+            lines.enter()
+                .append("path")
+                .attr("fill", "none")
+                .attr("stroke", function (d) {
+                    if (d.properties.id == "blue") {
+                        return "blue";
+                    }
+                    if (d.properties.id == "green-b" || d.properties.id == "green-c" || d.properties.id == "green-d" || d.properties.id == "green-e") {
+                        return "green";
+                    }
+                    if (d.properties.id == "red") {
+                        return "red";
+                    }
+                    if (d.properties.id == "orange") {
+                        return "orange";
+                    }
+                    if (d.properties.id == "mattapan") {
+                        return "#8b0000";
+                    } else {
+                        return "black";
+                    }
+                })
+                .attr("stroke-width", 8)
+                .attr("d", function (feature) {
+                    return path(feature);
+                });
+
+            var dots = d3.select('#map').selectAll("circle")
+                .data(vehicles);
+            dots.enter().append("circle")
+                .attr("transform", function (d) {
+                    console.log(d);
+                    return "translate(" + proj([d.attributes.longitude, d.attributes.latitude]) + ")";
+                })
+                .transition().duration(1000)
+                .attr("fill", "black")
+                .attr("r", 6);
+
+        });
+    var inter = setInterval(function () {
+        updateData();
+    }, 3000);
+
+    function updateData() {
+        d3.queue()
+            .defer(d3.json, "trainLines.json")
+            .defer(d3.json, wow)
+            //.defer(d3.json, wow1)
+            //.defer(d3.json, wow2)
+            .awaitAll(function (error, dataArray) {
+                var data = dataArray[0];
+                var vehicles = dataArray[1].data;
+                console.log(data);
+                //vehicles.append(dataArray[2].data);
+                //vehicles.append(dataArray[3].data);
+                var dots = d3.select('#map').selectAll("circle")
+                    .data(vehicles);
+                var proj = d3.geoAlbersUsa()
+                    .fitSize([1000, 1000], data);
+                var path = d3.geoPath()
+                    .projection(proj);
+                dots
+                    .transition()
+                    .attr("transform", function (d) {
+                        console.log(d);
+                        return "translate(" + proj([d.attributes.longitude, d.attributes.latitude]) + ")";
+                    })
+                    .duration(1000)
+                    .attr("fill", "black");
+                dots.exit()
+                    .transition().duration(1000)
+                    .attr('width', 0)
+                    .attr('height', 0)
+                    .remove();
+            })
     }
-    var client = new HttpClient();
-    client.get(wow, function (response) {
-        console.log(JSON.parse(response));
-    });
 
 </script>
 </body>
