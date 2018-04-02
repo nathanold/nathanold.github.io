@@ -10,8 +10,23 @@
 <body>
 <h1 id="heading">MBTA Real-time Map</h1>
 <svg width="1500" height="1000" id="map"></svg>
+<a href="#">
+    <div id="helpButton">?</div>
+</a>
+<div id="overlay"><h1>Help and Information</h1></div>
 <script>
+    function on() {
+        document.getElementById("overlay").style.display = "block";
+    }
 
+    function off() {
+        document.getElementById("overlay").style.display = "none";
+    }
+
+    //change the width and height of the svg
+    var mapSVG = document.getElementById("map");
+    mapSVG.setAttribute("width", window.innerWidth);
+    mapSVG.setAttribute("height", window.innerHeight * 1.8);
     //"https://api-v3.mbta.com/predictions?filter[stop]=South+Station&filter[direction_id]=0&include=schedule?api key=9105309c34884ec5be702f2478257ee9";
     var wow = "https://api-v3.mbta.com/vehicles?filter[route]=Orange,Red,Green-B,Green-C,Green-D,Green-E,Blue,Mattapan&api key=9105309c34884ec5be702f2478257ee9";
     var stops = "https://api-v3.mbta.com/stops?filter[route]=Orange,Red,Green-B,Green-C,Green-D,Green-E,Blue,Mattapan&api key=9105309c34884ec5be702f2478257ee9";
@@ -52,29 +67,11 @@
                 return d.properties.id != "sl1" && d.properties.id != "sl5" && d.properties.id != "sl2" && d.properties.id != "sl4"
             });
             var proj = d3.geoAlbersUsa()
-                .fitSize([1000, 1000], data);
+                .fitSize([innerWidth, innerHeight * 1.75], data);
             var path = d3.geoPath()
                 .projection(proj);
             var svg = d3.select('#map');
 
-            var stationDots = d3.select('#map').selectAll("g")
-                .data(stops);
-            stationDots.enter().append("g").append("rect")
-                .attr("width", 10)
-                .attr("height", 10)
-                .attr("transform", function (d) {
-                    return "translate(" + proj([d.attributes.longitude, d.attributes.latitude]) + ")";
-                })
-                .attr("fill", "grey");
-            stationDots.append("text")
-                .attr("x", (function (d) {
-                    return proj([d.attributes.longitude])
-                }))
-                .attr("y", (function (d) {
-                    return proj([d.attributes.latitude])
-                })).text(function (d) {
-                return d.attribute.name;
-            });
             var lines = svg.selectAll("path")
                 .data(data.features);
             lines.enter()
@@ -104,7 +101,29 @@
                     return path(feature);
                 });
 
-            var dots = d3.select('#map').selectAll("circle")
+            var stationDots = d3.select('#map').selectAll(".station")
+                .data(stops);
+            stationDots.enter().append("circle")
+                .attr("class", "station")
+                .attr("r", function(d){
+                    console.log(d);
+                })
+                .attr("transform", function (d) {
+                    return "translate(" + proj([d.attributes.longitude, d.attributes.latitude]) + ")";
+                })
+                .attr("fill", "white")
+                .attr("stroke", "black");
+            stationDots.append("text")
+                .attr("x", (function (d) {
+                    return proj([d.attributes.longitude])
+                }))
+                .attr("y", (function (d) {
+                    return proj([d.attributes.latitude])
+                })).text(function (d) {
+                return d.attribute.name;
+            });
+
+            var dots = d3.select('#map').selectAll(".train")
                 .data(vehicles);
             dots.enter().append("circle")
             /*
@@ -127,6 +146,7 @@
                 })
                 */
                 .attr("r", "5")
+                .attr("class","train")
                 .transition().duration(1000)
                 .attr("fill", "black")
 
@@ -147,10 +167,10 @@
                 console.log(data);
                 //vehicles.append(dataArray[2].data);
                 //vehicles.append(dataArray[3].data);
-                var dots = d3.select('#map').selectAll("circle")
+                var dots = d3.select('#map').selectAll(".train")
                     .data(vehicles);
                 var proj = d3.geoAlbersUsa()
-                    .fitSize([1000, 1000], data);
+                    .fitSize([window.innerWidth, window.innerHeight * 1.75], data);
                 var path = d3.geoPath()
                     .projection(proj);
                 dots
@@ -159,6 +179,7 @@
                         console.log(d);
                         return "translate(" + proj([d.attributes.longitude, d.attributes.latitude]) + ")";
                     })
+                    .attr("class","train")
                     .duration(1000)
                     .attr("fill", "black");
                 dots.exit()
