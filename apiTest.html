@@ -106,6 +106,15 @@
             stationDots.enter().append("circle")
                 .attr("class", "station")
                 .attr("r", function(d){
+                    if(d.attributes.name == "Mattapan" || d.attributes.name =="Oak Grove"
+                        || d.attributes.name == "Wonderland" || d.attributes.name == "Forest Hills"
+                        || d.attributes.name == "Lechmere" || d.attributes.name == "Bowdoin"
+                        || d){
+                        return 10;
+                    }
+                    else{
+                        return 8;
+                    }
                     console.log(d);
                 })
                 .attr("transform", function (d) {
