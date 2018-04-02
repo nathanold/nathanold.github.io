@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Map</title>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://unpkg.com/topojson@3"></script>
+</head>
+<body>
+<svg id="map" width="800" height="600">
+    <rect width="800" height="600" fill="#5499C7"></rect>
+</svg>
+<script>
+    var stateMapping = {
+        "CA":"California",
+        "NV":"Nevada",
+        "UT":"Utah",
+        "CO":"Colorado",
+        "KS":"Kansas",
+        "MS":"Missouri",
+        "KY":"Kentucky",
+        "WV":"West Virginia",
+        "MD":"Maryland",
+        "PA":"Pennsylvania",
+        "NY":"New York",
+        "VT":"Vermont",
+        "NH":"New Hampshire",
+        "ME":"Maine"
+    };
+    d3.queue()
+        .defer(d3.json, "usa.json")
+        .defer(d3.csv, "dancing.csv")
+        .awaitAll(function (error, dataArray) {
+            var data = dataArray[0];
+            var dancing = dataArray[1];
+            var dataExtent = d3.extent(dancing, function(d){
+                return d.ranking;
+            });
+            console.log(dataExtent);
+            var colorScale = d3.scaleLinear()
+                .domain(dataExtent)
+                .range(["green","yellow"]);
+            console.log(dancing);
+
+            dancing.forEach(function (state) {
+                state.ranking = parseFloat(state.ranking);
+            });
+
+            var regionData = d3.nest()
+                .key(function(d){
+                    //
+                })
+            var geoJSON = topojson.feature(data, data.objects.states);
+            console.log(geoJSON);
+            geoJSON.features = geoJSON.features.filter(function (d) {
+                return (d.id != "HI" && d.id != "AK");
+            });
+            var proj = d3.geoAlbersUsa()
+                .fitSize([800, 600], geoJSON);
+            var path = d3.geoPath()
+                .projection(proj);
+            var svg = d3.select('#map');
+
+            var states = svg.selectAll("path")
+                .data(geoJSON.features);
+
+            states.enter()
+                .append("path")
+                .attr("fill", function (d) {
+                    var stateName = stateMapping[d.id];
+                    var stateData = dancing.filter(function(state){
+                        return state.name == stateName;
+                    });
+                    if(stateData.length > 0){
+                        console.log(stateData[0].name);
+                        var ranking = stateData[0].ranking;
+
+                        return colorScale(ranking);
+                    }
+                    /*
+                    if (d.id == "MA" || d.id == "CO" || d.id == "CA") {
+                        return "red";
+                    }
+                    */
+                    if (stateName != undefined) {
+                        return "springgreen";
+                    }
+                    else{
+                        return "grey"
+                    }
+                })
+                .attr("stroke", "white")
+                .attr("d", function (feature) {
+                    return path(feature);
+                });
+            /*
+            var points = [
+                {"name": "Boston", "coords": [-71.0589, 42.3601]},
+                {"name": "London", "coords": [-0.1278, 51.5074]}
+            ];
+
+            var dots = svg.selectAll("circle")
+                .data(points);
+
+            dots.enter().append("circle")
+                .attr("transform", function (d) {
+                    return "translate(" + proj(d.coords) + ")";
+                })
+                .attr("fill", "black")
+                .attr("r", 10);
+                */
+        });
+
+</script>
+</body>
+</html>

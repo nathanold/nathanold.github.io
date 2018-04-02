@@ -4,15 +4,19 @@
     <meta charset="UTF-8">
     <title>API Test</title>
     <script src="https://d3js.org/d3.v4.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Baloo+Bhaijaan" rel="stylesheet">
+    <link href="final.css" rel="stylesheet">
 </head>
 <body>
+<h1 id="heading">MBTA Real-time Map</h1>
 <svg width="1500" height="1000" id="map"></svg>
 <script>
 
     //"https://api-v3.mbta.com/predictions?filter[stop]=South+Station&filter[direction_id]=0&include=schedule?api key=9105309c34884ec5be702f2478257ee9";
-    var wow = "https://api-v3.mbta.com/vehicles?api key=9105309c34884ec5be702f2478257ee9";
-   // var wow1 = "https://api-v3.mbta.com/vehicles?api key=9105309c34884ec5be702f2478257ee9?filter[route]=Red";//?api key=9105309c34884ec5be702f2478257ee9";
-   // var wow2 = "https://api-v3.mbta.com/vehicles?api key=9105309c34884ec5be702f2478257ee9?filter[route]=Blue";//?api key=9105309c34884ec5be702f2478257ee9";
+    var wow = "https://api-v3.mbta.com/vehicles?filter[route]=Orange,Red,Green-B,Green-C,Green-D,Green-E,Blue,Mattapan&api key=9105309c34884ec5be702f2478257ee9";
+    var stops = "https://api-v3.mbta.com/stops?filter[route]=Orange,Red,Green-B,Green-C,Green-D,Green-E,Blue,Mattapan&api key=9105309c34884ec5be702f2478257ee9";
+    // var wow1 = "https://api-v3.mbta.com/vehicles?api key=9105309c34884ec5be702f2478257ee9?filter[route]=Red";//?api key=9105309c34884ec5be702f2478257ee9";
+    // var wow2 = "https://api-v3.mbta.com/vehicles?api key=9105309c34884ec5be702f2478257ee9?filter[route]=Blue";//?api key=9105309c34884ec5be702f2478257ee9";
 
     /*
      // thanks to StackOverflow user tggagne
@@ -38,21 +42,39 @@
     d3.queue()
         .defer(d3.json, "trainLines.json")
         .defer(d3.json, wow)
+        .defer(d3.json, stops)
         .awaitAll(function (error, dataArray) {
             var data = dataArray[0];
             var vehicles = dataArray[1].data;
+            var stops = dataArray[2].data;
 
-            console.log(data);
-            console.log(vehicles);
             data.features = data.features.filter(function (d) {
                 return d.properties.id != "sl1" && d.properties.id != "sl5" && d.properties.id != "sl2" && d.properties.id != "sl4"
             });
-            console.log(data);
             var proj = d3.geoAlbersUsa()
                 .fitSize([1000, 1000], data);
             var path = d3.geoPath()
                 .projection(proj);
             var svg = d3.select('#map');
+
+            var stationDots = d3.select('#map').selectAll("g")
+                .data(stops);
+            stationDots.enter().append("g").append("rect")
+                .attr("width", 10)
+                .attr("height", 10)
+                .attr("transform", function (d) {
+                    return "translate(" + proj([d.attributes.longitude, d.attributes.latitude]) + ")";
+                })
+                .attr("fill", "grey");
+            stationDots.append("text")
+                .attr("x", (function (d) {
+                    return proj([d.attributes.longitude])
+                }))
+                .attr("y", (function (d) {
+                    return proj([d.attributes.latitude])
+                })).text(function (d) {
+                return d.attribute.name;
+            });
             var lines = svg.selectAll("path")
                 .data(data.features);
             lines.enter()
@@ -85,13 +107,28 @@
             var dots = d3.select('#map').selectAll("circle")
                 .data(vehicles);
             dots.enter().append("circle")
+            /*
+            .attr("width", 10)
+            .attr("height", 2)
+            */
                 .attr("transform", function (d) {
                     console.log(d);
                     return "translate(" + proj([d.attributes.longitude, d.attributes.latitude]) + ")";
                 })
+                /*
+                .attr("transform",function(d){
+                    if(d.attributes.bearing != undefined){
+                    console.log(d.attributes.bearing);
+                    return "rotate("+ d.attributes.bearing + ")";
+                        }
+                        else{
+                        return "rotate(0)"
+                    }
+                })
+                */
+                .attr("r", "5")
                 .transition().duration(1000)
                 .attr("fill", "black")
-                .attr("r", 6);
 
         });
     var inter = setInterval(function () {
