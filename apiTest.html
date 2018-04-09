@@ -11,17 +11,24 @@
 <svg width="10" height="10" id="map"></svg>
 <div id="head"><h1>MBTA Real-time Map</h1></div>
 
-<a href="#">
-    <div id="helpButton">?</div>
+<a href="#" id="helpButton" onclick="on()">
+    <div>?</div>
 </a>
-<div id="overlay"><h1>Help and Information</h1></div>
+<div id="overlay">
+    <div id="contain">
+        <h1>Help and Information</h1>
+        <button id="closeOverlay" onclick="off()">Close</button>
+    </div>
+</div>
 <!--<div id="resetButton">Reset Zoom</div>-->
 <script>
     function on() {
+        console.log('displaying overlay');
         document.getElementById("overlay").style.display = "block";
     }
 
     function off() {
+        console.log('closing overlay');
         document.getElementById("overlay").style.display = "none";
     }
 
@@ -161,9 +168,9 @@
                 })).text(function (d) {
                 return d.attribute.name;
             });
-
             var dots = d3.select('#map').selectAll(".train")
                 .data(vehicles);
+            /*
             dots.enter().append("circle")
                 .attr("transform", function (d) {
                     console.log(d);
@@ -172,9 +179,24 @@
                 .attr("r", "5")
                 .attr("class", "train")
                 .transition().duration(1000)
-                .attr("fill", "black")
-
+                .attr("fill", "black");
+            */
+            dots.enter()
+                .append("rect")
+                .attr("transform", function (d) {
+                    console.log(d);
+                    return "translate(" + proj([d.attributes.longitude, d.attributes.latitude]) + ") rotate(" + d.attributes.bearing + ")";
+                })
+                .attr("width", 10)
+                .attr("height", 20)
+                .attr("rx", 2)
+                .attr("ry", 2)
+                .attr("class", "train")
+                .transition().duration(1000)
+                .attr("fill", "black");
         });
+
+
     var inter = setInterval(function () {
         updateData();
     }, 5000);
@@ -199,7 +221,7 @@
                     .transition()
                     .attr("transform", function (d) {
                         console.log(d);
-                        return "translate(" + proj([d.attributes.longitude, d.attributes.latitude]) + ")";
+                        return "translate(" + proj([d.attributes.longitude, d.attributes.latitude]) + ") rotate(" + d.attributes.bearing + ")";
                     })
                     .attr("class", "train")
                     .duration(1000)

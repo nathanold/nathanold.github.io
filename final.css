@@ -85,3 +85,14 @@ div.tooltip {
     background-color: white;
     border-radius: 8px;
 }
+
+#overlay#contains{
+    position: absolute;
+    background-color: white;
+    top: 20%;
+    bottom:20%;
+    max-width: 60%;
+    left:20%;
+    right: 20%;
+    border: 2px solid black;
+}
