@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0c8b446c-5852-40d0-a966-a903048af8aa" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apiTest.html" beforeDir="false" afterPath="$PROJECT_DIR$/apiTest.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/final.css" beforeDir="false" afterPath="$PROJECT_DIR$/final.css" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -21,11 +19,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="450">
-      <file leaf-file-name="apiTest.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="apiTest.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/apiTest.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="18" column="37" selection-start-line="18" selection-start-column="37" selection-end-line="18" selection-end-column="37" />
+            <state relative-caret-position="248">
+              <caret line="190" column="34" selection-start-line="190" selection-start-column="34" selection-end-line="190" selection-end-column="34" />
             </state>
           </provider>
         </entry>
@@ -39,7 +37,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="final.css" pinned="false" current-in-tab="true">
+      <file leaf-file-name="final.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/final.css">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="387">
@@ -101,8 +99,8 @@
         <option value="$PROJECT_DIR$/redLineFix.html" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/trainLines2.json" />
-        <option value="$PROJECT_DIR$/apiTest.html" />
         <option value="$PROJECT_DIR$/final.css" />
+        <option value="$PROJECT_DIR$/apiTest.html" />
       </list>
     </option>
   </component>
@@ -276,12 +274,12 @@
       <workItem from="1523235364134" duration="320000" />
       <workItem from="1523244154877" duration="12000" />
       <workItem from="1523296318396" duration="1970000" />
-      <workItem from="1523299412732" duration="311000" />
+      <workItem from="1523299412732" duration="328000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="145031000" />
+    <option name="totallyTimeSpent" value="145048000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="819" extended-state="0" />
@@ -656,17 +654,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apiTest.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="37" selection-start-line="18" selection-start-column="37" selection-end-line="18" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/final.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="387">
           <caret line="84" column="28" selection-start-line="84" selection-start-column="28" selection-end-line="84" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apiTest.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="248">
+          <caret line="190" column="34" selection-start-line="190" selection-start-column="34" selection-end-line="190" selection-end-column="34" />
         </state>
       </provider>
     </entry>
