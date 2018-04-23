@@ -86,13 +86,24 @@ div.tooltip {
     border-radius: 8px;
 }
 
-#overlay#contains{
+.whiteBack{
     position: absolute;
     background-color: white;
-    top: 20%;
-    bottom:20%;
+    top: 10%;
+    bottom:10%;
     max-width: 60%;
     left:20%;
     right: 20%;
     border: 2px solid black;
+
+}
+#closeOverlay{
+    width: 5%;
+    right: 22%;
+    top: 12%;
+    position: fixed;
+}
+
+#train{
+    pointer-events: none;
 }

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="145mm"
+   height="293mm"
+   viewBox="0 0 513.77934 1038.189"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="mattapan-train.svg">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.35"
+     inkscape:cx="-270.71429"
+     inkscape:cy="520"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1440"
+     inkscape:window-height="797"
+     inkscape:window-x="0"
+     inkscape:window-y="1"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     style="opacity:0.81000001"
+     transform="translate(0,-14.173228)">
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:104.82606506;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 57.379681,210.60652 -2.825856,788.84863 409.749485,0 L 461.47745,204.32088 252.36392,78.607954 Z"
+       id="path3336"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:#800000;stroke-width:100.5;stroke-miterlimit:4;stroke-dasharray:none"
+       d="m 109.28571,634.36272 c 0,-163.9616 0.84848,-323.44629 1.8855,-354.41045 l 1.88549,-56.29847 69.79347,-47.22773 c 43.79159,-29.63281 71.41954,-46.60374 74.15811,-45.55285 2.40055,0.92118 37.64502,21.6594 78.32104,46.08494 l 73.95639,44.41006 0,355.55324 0,355.55323 -150,0 -150,0 0,-298.11197 z"
+       id="path4165"
+       inkscape:connector-curvature="0"
+       transform="translate(-9.1552734e-5,14.173228)" />
+  </g>
+</svg>
